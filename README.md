@@ -1,14 +1,36 @@
 # OpenStreetMap-with-R
 
-#install.packages("osmdata") # For getting and working with OpenStreetMap data
-#install.packages("ggplot2") # For data visualization
+setwd("C:/Users/SHAKIBM/data-visualization-with-R")
 
-library(osmdata)
-library(ggplot2)
+install.packages("ggplot2")   #only do this once
+install.packages("tidyverse") #only do this once
 
-# List the features of OSM data
-available_features()
+library(ggplot2)              #needs to be done each r session
+library(tidyverse)            #needs to be done each r session
 
-We use the function available_tags() and ask for tags for a particular feature. In this case, we will look for the tags of those water features:
 
-available_tags(feature = "water")
+EUvax <- read.csv("EUvaccine.csv") #####this reads in the data file I made you will need to change the path to your computer
+View(EUvax)
+
+
+mapdata <- map_data("world") ##ggplot2
+View(mapdata)
+mapdata <- left_join(mapdata, EUvax, by="region")
+View(mapdata)
+
+mapdata1<-mapdata %>% filter(!is.na(mapdata$Perc_vaccinated))
+View(mapdata1)
+
+map1<-ggplot(mapdata1, aes( x = long, y = lat, group=group)) +
+  geom_polygon(aes(fill = Perc_vaccinated), color = "black")
+map1
+
+map2 <- map1 + scale_fill_gradient(name = "% vaccinated", low = "yellow", high =  "red", na.value = "grey50")+
+  theme(axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title.y=element_blank(),
+        axis.title.x=element_blank(),
+        rect = element_blank())
+map2
+
