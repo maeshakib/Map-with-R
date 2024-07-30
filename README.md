@@ -1,5 +1,8 @@
 # OpenStreetMap-with-R
 
+
+
+```
 setwd("C:/Users/SHAKIBM/data-visualization-with-R")
 
 install.packages("ggplot2")   #only do this once
@@ -33,4 +36,4 @@ map2 <- map1 + scale_fill_gradient(name = "% vaccinated", low = "yellow", high =
         axis.title.x=element_blank(),
         rect = element_blank())
 map2
-
+```
